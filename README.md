@@ -64,7 +64,7 @@ python main.py
 
 ---
 
-##📁 Estructura del proyecto
+## 📁 Estructura del proyecto
 - `.idea/` → Archivos de configuración de PyCharm (opcional)
 - `tests/` → Contiene los juegos (figura-fondo y complejidad gradual)
 - `results/` → Guarda los resultados en formato JSON
@@ -74,7 +74,7 @@ python main.py
 - `main.py` → Codigo principal del programa
 
 ---
-##🔊 Funcionalidades
+## 🔊 Funcionalidades
 
 - Generación dinámica de estímulos
 - Variación de tamaño, forma y color
@@ -88,7 +88,7 @@ python main.py
     - Nivel alcanzado
 
 ---
-##📊 Salida de datos
+## 📊 Salida de datos
 
 Los resultados se exportan en formato JSON:
 
@@ -100,11 +100,11 @@ Los resultados se exportan en formato JSON:
 - Cantidad de errores
 
 ---
-##🧪 Contexto académico
+## 🧪 Contexto académico
 
 Proyecto orientado al desarrollo de herramientas de evaluación cognitiva en rehabilitación, enfocado en procesos perceptuales y atencionales.
 ---
 
-##👨‍💻 Autor
+## 👨‍💻 Autor
 
 Ignacio Bagnato
