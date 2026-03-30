@@ -76,28 +76,28 @@ python main.py
 ---
 ##🔊 Funcionalidades
 
--Generación dinámica de estímulos
--Variación de tamaño, forma y color
--Evita superposición de objetos
--Feedback:
-    -✔ Correcto (sonido + mensaje)
-    -✖ Incorrecto (sonido + mensaje)
--Registro de métricas:
-    -Tiempo de respuesta
-    -Errores
-    -Nivel alcanzado
+- Generación dinámica de estímulos
+- Variación de tamaño, forma y color
+- Evita superposición de objetos
+- Feedback:
+    - ✔ Correcto (sonido + mensaje)
+    - ✖ Incorrecto (sonido + mensaje)
+- Registro de métricas:
+    - Tiempo de respuesta
+    - Errores
+    - Nivel alcanzado
 
 ---
 ##📊 Salida de datos
 
 Los resultados se exportan en formato JSON:
 
--ID del paciente
--Fecha
--Test realizado
--Nivel alcanzado
--Tiempo promedio
--Cantidad de errores
+- ID del paciente
+- Fecha
+- Test realizado
+- Nivel alcanzado
+- Tiempo promedio
+- Cantidad de errores
 
 ---
 ##🧪 Contexto académico
