@@ -103,6 +103,7 @@ Los resultados se exportan en formato JSON:
 ## 🧪 Contexto académico
 
 Proyecto orientado al desarrollo de herramientas de evaluación cognitiva en rehabilitación, enfocado en procesos perceptuales y atencionales.
+
 ---
 
 ## 👨‍💻 Autor
