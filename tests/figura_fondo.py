@@ -1,14 +1,24 @@
 import pygame
 import random
 import time
+import os
 from utils.metrics import calcular_tiempo_promedio
 from utils.json_export import guardar_json
 
 WIDTH, HEIGHT = 800, 600
 
 pygame.mixer.init()
-correct_sound = pygame.mixer.Sound("assets/correct.wav")
-wrong_sound = pygame.mixer.Sound("assets/wrong.wav")
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+ruta_correcto = os.path.join(BASE_DIR, "..", "assets", "correct.wav")
+ruta_correcto = os.path.normpath(ruta_correcto)
+
+ruta_incorrecto = os.path.join(BASE_DIR, "..", "assets", "wrong.wav")
+ruta_incorrecto = os.path.normpath(ruta_incorrecto)
+
+correct_sound = pygame.mixer.Sound(ruta_correcto)
+wrong_sound = pygame.mixer.Sound(ruta_incorrecto)
 
 def draw_shape(screen, color, pos, size, tipo):
     if tipo == "circle":
@@ -24,11 +34,43 @@ def posicion_valida(nueva_pos, posiciones_existentes, min_dist):
             return False
     return True
 
-def run_test_2(screen):
+
+def pausa(screen):
+    font = pygame.font.Font(None, 50)
+    boton_rect = pygame.Rect(250, 250, 300, 100)
+
+    # Limpiamos eventos viejos para que el clic de "entrar" a pausa
+    # no se use para "salir" de la pausa.
+    pygame.event.clear()
+
+    while True:
+        screen.fill((120, 120, 120))
+        texto = font.render("PAUSA", True, (255, 255, 255))
+        screen.blit(texto, (340, 150))
+
+        pygame.draw.rect(screen, (0, 200, 0), boton_rect)
+        texto_btn = font.render("CONTINUAR", True, (0, 0, 0))
+        screen.blit(texto_btn, (290, 285))
+
+        pygame.display.flip()
+
+        # En lugar de wait(), usamos un for event normal
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return "salir"
+
+            if event.type == pygame.MOUSEBUTTONDOWN:  # Usamos DOWN para ser consistentes
+                if boton_rect.collidepoint(event.pos):
+                    return "continuar"
+
+def run_test_2(screen, nombre_paciente):
     nivel = 1
     max_nivel = 10
     tiempos = []
     resultados = []
+
+    # Boton de pausa
+    pause_rect = pygame.Rect(740, 10, 50, 50)
 
     for intento in range(10):
         screen.fill((200, 200, 200))  # fondo gris
@@ -121,10 +163,16 @@ def run_test_2(screen):
         for obj in objetos:
             draw_shape(screen, obj[1], obj[0], obj[4], obj[2])
 
+        # Boton pausa
+        pygame.draw.rect(screen, (200, 200, 200), pause_rect)
+        pygame.draw.rect(screen, (0, 0, 0), (750, 20, 8, 30))
+        pygame.draw.rect(screen, (0, 0, 0), (770, 20, 8, 30))
+
         pygame.display.flip()
 
         start = time.time()
         clicked = False
+        ignorar_click= False
 
         while not clicked:
             for event in pygame.event.get():
@@ -132,6 +180,43 @@ def run_test_2(screen):
                     pygame.quit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if ignorar_click:
+                        ignorar_click= False
+                        continue
+
+                    if pause_rect.collidepoint(event.pos):
+                        pausa_inicio = time.time()
+                        res = pausa(screen)
+                        if res == "salir":
+                            return
+
+                        pausa_fin = time.time()
+                        start += (pausa_fin - pausa_inicio)  # CORRIGE EL TIEMPO
+
+                        #Redibujamos menu
+                        screen.fill((200, 200, 200))
+                        pygame.draw.rect(screen, (30, 30, 30), (0, 0, WIDTH, 80))
+                        pygame.draw.line(screen, (255, 255, 255), (0, 80), (WIDTH, 80), 2)
+                        font = pygame.font.Font(None, 30)
+                        text = font.render("Objetivo:", True, (255, 255, 255))
+                        screen.blit(text, (20, 25))
+                        pygame.draw.rect(screen, (255, 255, 255), (120, 10, 80, 60), 2)
+                        draw_shape(screen, objetivo_color, (160, 40), 20, objetivo_tipo)
+
+                        #Redibujamos boton pausa
+                        pygame.draw.rect(screen, (200, 200, 200), pause_rect)
+                        pygame.draw.rect(screen, (0, 0, 0), (750, 20, 8, 30))
+                        pygame.draw.rect(screen, (0, 0, 0), (770, 20, 8, 30))
+
+
+                        for obj in objetos:
+                            draw_shape(screen, obj[1], obj[0], obj[4], obj[2])
+
+                        pygame.display.flip()
+
+
+                        continue
+
                     end = time.time()
                     tiempo = (end - start) * 1000
                     tiempos.append(tiempo)
@@ -175,7 +260,7 @@ def run_test_2(screen):
                             clicked = True
 
     data = {
-        "id_paciente": "001",
+        "id_paciente": nombre_paciente,
         "fecha": time.strftime("%Y-%m-%d"),
         "tests": "figura_fondo",
         "metrica_principal": nivel,
@@ -185,4 +270,5 @@ def run_test_2(screen):
         "errores": resultados.count(False)
     }
 
-    guardar_json(data, "figura_fondo")
+    guardar_json(data, f"figura_fondo_{nombre_paciente}")
+

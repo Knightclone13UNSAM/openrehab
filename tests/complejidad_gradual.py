@@ -1,6 +1,9 @@
 import pygame
 import random
 import time
+import os
+import sys
+
 from utils.metrics import calcular_tiempo_promedio
 from utils.json_export import guardar_json
 
@@ -9,11 +12,40 @@ WIDTH, HEIGHT = 800, 600
 def draw_circle(screen, color, pos, radius):
     pygame.draw.circle(screen, color, pos, radius)
 
-def run_test_1(screen):
+
+def pausa(screen):
+    font = pygame.font.Font(None, 50)
+    boton_rect = pygame.Rect(250, 250, 300, 100)
+
+    pygame.event.clear()  # Limpia eventos previos
+
+    while True:
+        screen.fill((30, 30, 30))  # Fondo gris oscuro para el menú
+
+        texto = font.render("JUEGO EN PAUSA", True, (255, 255, 255))
+        screen.blit(texto, (250, 150))
+
+        pygame.draw.rect(screen, (0, 200, 0), boton_rect)
+        texto_btn = font.render("CONTINUAR", True, (255, 255, 255))
+        screen.blit(texto_btn, (300, 285))
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return "salir"
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if boton_rect.collidepoint(event.pos):
+                    return "continuar"
+
+def run_test_1(screen, nombre_paciente):
     nivel = 1
     max_nivel = 10
     tiempos = []
     resultados = []
+
+    # Rectángulo para detectar el clic de pausa (esquina superior derecha)
+    pause_rect = pygame.Rect(740, 10, 50, 50)
 
     for intento in range(10):
         screen.fill((0, 0, 0))
@@ -55,12 +87,16 @@ def run_test_1(screen):
 
         random.shuffle(objetos)
 
-        # Mostrar escena
-        screen.fill((0, 0, 0))
-        for obj in objetos:
-            draw_circle(screen, obj[1], obj[0], obj[3])
+        def dibujar_todo():
+            screen.fill((0, 0, 0))
+            for obj in objetos:
+                draw_circle(screen, obj[1], obj[0], obj[3])
+            # Dibujar botón de pausa (dos barritas blancas)
+            pygame.draw.rect(screen, (255, 255, 255), (750, 15, 10, 35))
+            pygame.draw.rect(screen, (255, 255, 255), (770, 15, 10, 35))
+            pygame.display.flip()
 
-        pygame.display.flip()
+        dibujar_todo()
 
         start = time.time()
         clicked = False
@@ -68,9 +104,47 @@ def run_test_1(screen):
         while not clicked:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    # Datos de emergencia si cierra con la X
+                    data_aux = {
+                        "id_paciente": nombre_paciente,
+                        "fecha": time.strftime("%Y-%m-%d %H:%M:%S"),
+                        "test": "complejidad_gradual",
+                        "estado": "incompleto: Interrumpido por el usuario",
+                        "intentos": len(resultados),
+                        "nivel_final": nivel
+                    }
+                    guardar_json(data_aux, f"complejidad_gradual_{nombre_paciente}")
                     pygame.quit()
+                    import sys
+                    sys.exit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    # SI TOCA EL BOTÓN DE PAUSA
+                    if pause_rect.collidepoint(event.pos):
+                        p_inicio = time.time()
+                        res = pausa(screen)
+
+                        if res == "salir":
+                            # Datos de emergencia si cierra desde el menú de pausa
+                            data_pausa = {
+                                "id_paciente": nombre_paciente,
+                                "fecha": time.strftime("%Y-%m-%d %H:%M:%S"),
+                                "test": "complejidad_gradual",
+                                "estado": "interrumpido_en_pausa",
+                                "intentos": len(resultados),
+                                "nivel_final": nivel
+                            }
+                            guardar_json(data_pausa, f"complejidad_gradual_{nombre_paciente}")
+                            pygame.quit()
+                            import sys
+                            sys.exit()
+
+                        # Al volver: corregir tiempo y redibujar
+                        p_fin = time.time()
+                        start += (p_fin - p_inicio)
+                        dibujar_todo()
+                        continue
+
                     end = time.time()
                     tiempo = (end - start) * 1000
                     tiempos.append(tiempo)
@@ -79,7 +153,8 @@ def run_test_1(screen):
 
                     for obj in objetos:
                         ox, oy = obj[0]
-                        if (x - ox)**2 + (y - oy)**2 < 20**2:
+                        radio_obj = obj[3]
+                        if (x - ox)**2 + (y - oy)**2 < radio_obj**2:
 
                             if obj[2]:  # acierto
                                 resultados.append(True)
@@ -110,11 +185,13 @@ def run_test_1(screen):
 
                             nivel = max(1, min(max_nivel, nivel))
                             clicked = True
+                            break
 
     data = {
-        "id_paciente": "001",
+        "id_paciente": nombre_paciente,
         "fecha": time.strftime("%Y-%m-%d"),
         "tests": "complejidad_gradual",
+        "Estado": "Completado exitosamente",
         "metrica_principal": nivel,
         "unidad": "nivel",
         "intentos": len(tiempos),
@@ -122,4 +199,8 @@ def run_test_1(screen):
         "errores": resultados.count(False)
     }
 
-    guardar_json(data, "complejidad_gradual")
+    guardar_json(data, f"complejidad_gradual_{nombre_paciente}")
+    if event.type == pygame.QUIT:
+        guardar_json(data, f"complejidad_gradual_{nombre_paciente}")
+        pygame.quit()
+        return
