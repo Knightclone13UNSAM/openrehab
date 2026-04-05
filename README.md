@@ -35,7 +35,7 @@ El usuario debe seleccionar la figura correcta mientras la dificultad aumenta pr
 
 Antes de ejecutar el programa, asegurarse de tener instalado:
 
-- Python 3 (https://www.python.org/)
+- Python 3.12 o anterior (https://www.python.org/)
 - pip (gestor de paquetes de Python)
 
 ---
@@ -53,7 +53,7 @@ cd openrehab
 2. Instalar dependencias (PyGame)
 
 ```bash
-pip install pygame
+pip install -r requirements.txt
 ```
 
 3. Para ejecutar el juego abrir en terminal o aplicacion (Visual Studio / PyCharm)
