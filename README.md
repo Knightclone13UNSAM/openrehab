@@ -1,26 +1,35 @@
 # 🧠 OpenRehab - Test Figura Fondo y complejidad gradual
 
-Aplicación desarrollada en Python utilizando Pygame para la evaluación cognitiva, basada en tareas de discriminación figura-fondo (similar a "¿Dónde está Wally?") y complejidad gradual (seleccionar figura correcta).
+Aplicación desarrollada en Python utilizando Pygame para la evaluación cognitiva, basada en tareas de discriminación figura-fondo  y complejidad gradual .
 
 ---
 
 ## 🎯 Objetivo
 
-Evaluar:
-- Atención selectiva
-- Discriminación visual
-- Velocidad de respuesta
+Evalúar la Atención selectiva y la Discriminación visual mediante tareas de búsqueda de estímulos y cancelación.
 
-El usuario debe identificar un objeto objetivo entre múltiples distractores con características similares.
+
+- **¿Que mide?:** Mide la capacidad de filtrado de distractores, resistencia a la interferencia visual, **velocidad de respuesta** y sensibilidad al contraste
 
 ---
 ## 🧪 Tests incluidos
 
-### Figura-Fondo
+### Figura-Fondo "Buscando a Wally"
 El usuario debe identificar un objeto objetivo entre múltiples distractores con características similares.
+
+### Figura-Fondo Clásico
+El usuario debe identificar un objeto objetivo cuyos bordes y colores se asemejan al del fondo para evaluar sensibilidad al contraste y la agudeza visual en condiciones de camuflaje. 
 
 ### Complejidad Gradual
 El usuario debe seleccionar la figura correcta mientras la dificultad aumenta progresivamente.
+
+---
+### 🛡️ Robustez y Seguridad de Datos
+El sistema incluye mecanismos de protección de información:
+
+- **Guardado de Emergencia:** Si el test se cierra inesperadamente (botón X), se genera un reporte JSON automático con los datos parciales.
+
+- **Estado del Test:** Los resultados indican si la sesión fue completada exitosamente o interrumpida.
 
 ---
 ## 🛠️ Tecnologías utilizadas
@@ -65,27 +74,12 @@ python main.py
 ---
 
 ## 📁 Estructura del proyecto
-- `.idea/` → Archivos de configuración de PyCharm (opcional)
 - `tests/` → Contiene los juegos (figura-fondo y complejidad gradual)
 - `results/` → Guarda los resultados en formato JSON
 - `assets/` → Sonidos (.wav)
 - `utils/` → Métricas y exportación de resultados
 - `generate_sounds.py` → Script para generar sonidos
 - `main.py` → Codigo principal del programa
-
----
-## 🔊 Funcionalidades
-
-- Generación dinámica de estímulos
-- Variación de tamaño, forma y color
-- Evita superposición de objetos
-- Feedback:
-    - ✔ Correcto (sonido + mensaje)
-    - ✖ Incorrecto (sonido + mensaje)
-- Registro de métricas:
-    - Tiempo de respuesta
-    - Errores
-    - Nivel alcanzado
 
 ---
 ## 📊 Salida de datos
@@ -95,14 +89,20 @@ Los resultados se exportan en formato JSON:
 - ID del paciente
 - Fecha
 - Test realizado
+- Estado del test
 - Nivel alcanzado
 - Tiempo promedio
 - Cantidad de errores
 
 ---
-## 🧪 Contexto académico
+## 👥 Población dirigida y Utilidad Clínica
 
-Proyecto orientado al desarrollo de herramientas de evaluación cognitiva en rehabilitación, enfocado en procesos perceptuales y atencionales.
+Este software ha sido desarrollado específicamente para la evaluación y estimulación de pacientes con alteraciones en el procesamiento visual y la atención, incluyendo:
+
+* **Heminegligencia Unilateral (Neglect):** Los tests de búsqueda visual y cancelación permiten evaluar la capacidad del paciente para orientarse y responder a estímulos en el campo visual afectado.
+* **Deterioro Visual Cortical o Cerebral (DVC):** El test de **Complejidad Gradual** está diseñado para determinar el umbral de saturación visual del paciente, permitiendo identificar cuántos elementos puede procesar antes de perder la eficiencia visual.
+* **Secuelas de ACV o TCE:** Evaluación de la atención selectiva y la resistencia a la interferencia (distractores).
+* **Baja Visión y Sensibilidad al Contraste:** El test **Figura-Fondo V2** permite trabajar específicamente con pacientes que presentan dificultades para segmentar objetos de su entorno debido a la similitud de color y contraste.
 
 ---
 
