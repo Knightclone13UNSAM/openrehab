@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d0201ae4-1cea-4e27-8b37-901dee1ae112" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/figura_fondoV2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/complejidad_gradual.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/complejidad_gradual.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/figura_fondo.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/figura_fondo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/json_export.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/json_export.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1774382349262</updated>
       <workItem from="1774382350284" duration="8538000" />
-      <workItem from="1775414714177" duration="14765000" />
+      <workItem from="1775414714177" duration="15384000" />
     </task>
     <servers />
   </component>
