@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d0201ae4-1cea-4e27-8b37-901dee1ae112" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore.txt" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +44,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "ai.playground.ignore.import.keys.banner.in.settings": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Merging main",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
     "vue.rearranger.settings.migration": "true"
@@ -66,7 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1774382349262</updated>
       <workItem from="1774382350284" duration="8538000" />
-      <workItem from="1775414714177" duration="15384000" />
+      <workItem from="1775414714177" duration="15703000" />
     </task>
     <servers />
   </component>

@@ -1,21 +1,4 @@
-# Archivos temporales de Python
 __pycache__/
-*.py[cod]
-*$py.class
-
-# Entornos virtuales (MUY IMPORTANTE: No subir estas carpetas pesadas)
-venv/
-env/
-ENV/
-.env
-.venv
-
-# Archivos de configuración de editores
-.vscode/
+*.pyc
 .idea/
-*.swp
-*.swo
-
-# Archivos de sistema
-.DS_Store
-Thumbs.db
+venv/
