@@ -2,7 +2,7 @@ import pygame
 import random
 import time
 import os
-from utils.metrics import calcular_tiempo_promedio
+from utils.metrics import calcular_tiempo_promedio, calcular_tasa_aciertos
 from utils.json_export import guardar_json
 
 WIDTH, HEIGHT = 800, 600
@@ -24,7 +24,7 @@ def draw_shape(screen, color, pos, size, tipo):
     if tipo == "circle":
         pygame.draw.circle(screen, color, pos, size)
     elif tipo == "square":
-        pygame.draw.rect(screen, color, (*pos, size, size))
+        pygame.draw.rect(screen, color, (pos[0] - size, pos[1] - size, size * 2, size * 2))
 
 def posicion_valida(nueva_pos, posiciones_existentes, min_dist):
     for pos in posiciones_existentes:
@@ -114,7 +114,7 @@ def run_test_2(screen, nombre_paciente):
             while True:
                 pos = posiciones.pop()
 
-                if posicion_valida(pos, posiciones_usadas, 40):
+                if posicion_valida(pos, posiciones_usadas, 45):
                     posiciones_usadas.append(pos)
                     break
 
@@ -235,7 +235,7 @@ def run_test_2(screen, nombre_paciente):
 
                                 screen.fill((200, 200, 200))
                                 font = pygame.font.Font(None, 60)
-                                text = font.render("✔ Correcto", True, (0, 150, 0))
+                                text = font.render("CORRECTO", True, (0, 150, 0))
                                 screen.blit(text, (300, 250))
                                 pygame.display.flip()
                                 pygame.time.delay(800)
@@ -249,7 +249,7 @@ def run_test_2(screen, nombre_paciente):
 
                                 screen.fill((200, 200, 200))
                                 font = pygame.font.Font(None, 60)
-                                text = font.render("✖ Incorrecto", True, (200, 0, 0))
+                                text = font.render("INCORRECTO", True, (200, 0, 0))
                                 screen.blit(text, (280, 250))
                                 pygame.display.flip()
                                 pygame.time.delay(800)
@@ -258,16 +258,16 @@ def run_test_2(screen, nombre_paciente):
 
                             nivel = max(1, min(max_nivel, nivel))
                             clicked = True
-
+    tasa= calcular_tasa_aciertos(resultados)
     data = {
         "id_paciente": nombre_paciente,
         "fecha": time.strftime("%Y-%m-%d"),
-        "tests": "figura_fondo",
-        "metrica_principal": nivel,
-        "unidad": "nivel",
+        "tests": "figura_fondo_wally",
+        "nivel_maxima_densidad": nivel,
+        "tasa_aciertos_precision": f"{tasa}%",
         "intentos": len(tiempos),
-        "tiempo_promedio_ms": calcular_tiempo_promedio(tiempos),
-        "errores": resultados.count(False)
+        "tiempo_reaccion_promedio_ms": round(calcular_tiempo_promedio(tiempos),2),
+        "errores_totales": resultados.count(False)
     }
 
     guardar_json(data, f"figura_fondo_{nombre_paciente}")

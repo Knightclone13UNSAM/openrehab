@@ -4,6 +4,7 @@ import time
 import sys
 import os
 
+from utils.metrics import calcular_tasa_aciertos, calcular_tiempo_promedio
 # --- CONFIGURACIÓN DE PANTALLA ---
 WIDTH, HEIGHT = 800, 600
 
@@ -47,6 +48,7 @@ def run_test_3(screen, nombre_paciente):
     from utils.json_export import guardar_json
 
     nivel, tiempos, resultados = 1, [], []
+    contrastes_logrados= []
 
     # Cargar sonidos relativos
     try:
@@ -86,11 +88,14 @@ def run_test_3(screen, nombre_paciente):
                 if event.type == pygame.QUIT:
                     # ROBUSTEZ: Guardar antes de cerrar
                     data_emergencia = {"paciente": nombre_paciente,
-                                       "nivel alcanzado": nivel,
-                                       "Intentos realizados" : len(resultados),
-                                       "estado": "Incompleto: Finalizado por el usuario",
-                                       "Fecha": time.strftime("%d/%m/%Y %H:%M:%S")
-                                       }
+                        "test": "Figura-Fondo V2",
+                        "estado": "INTERRUMPIDO_POR_USUARIO",
+                        "nivel_alcanzado": nivel,
+                        "aciertos_parciales": resultados.count(True),
+                        "tr_promedio_ms": round(calcular_tiempo_promedio(tiempos), 2),
+                        "ultimo_contraste_intentado": epsilon,
+                        "fecha": time.strftime("%d/%m/%Y %H:%M:%S")
+                    }
                     guardar_json(data_emergencia, f"figura_fondo_{nombre_paciente}")
                     pygame.quit()
                     sys.exit()
@@ -115,6 +120,7 @@ def run_test_3(screen, nombre_paciente):
                         if snd_ok: snd_ok.play()
                         resultados.append(True)
                         tiempos.append(reaccion)
+                        contrastes_logrados.append(epsilon)
                         screen.fill((30, 120, 30))
                         nivel = min(10, nivel + 1)
                     else:
@@ -127,12 +133,28 @@ def run_test_3(screen, nombre_paciente):
                     pygame.time.delay(600)
                     clicked = True
 
+    #Calculos clínicos
+    tasa = calcular_tasa_aciertos(resultados)
+    # El umbral es el epsilon más bajo (más difícil) donde acertó
+    umbral_minimo = min(contrastes_logrados) if contrastes_logrados else "No alcanzado"
+
     # --- GUARDADO FINAL ---
     data_final = {
         "paciente": nombre_paciente,
+        "test": "Figura Fondo V2 (Sensibilidad al Contraste)",
+        "fecha": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "Estado": "Completado Exitosamente",
+
+        #Umbral de Contraste
+        "umbral_contraste_delta_rgb": umbral_minimo,
+
+        #Desempeño
         "nivel_alcanzado": nivel,
-        "tiempo_promedio_ms": calcular_tiempo_promedio(tiempos) if tiempos else 0,
+        "tiempo_aciertos_precision": f"{tasa}%",
         "aciertos": resultados.count(True),
-        "fecha": time.strftime("%Y-%m-%d %H:%M:%S")
+        "errores": resultados.count(False),
+
+        #Velocidad de Procesamiento
+        "tiempo_promedio_ms": round(calcular_tiempo_promedio(tiempos),2)
     }
     guardar_json(data_final, f"figura_fondo_V2_{nombre_paciente}")

@@ -4,25 +4,20 @@ Aplicación desarrollada en Python utilizando Pygame para la evaluación cogniti
 
 ---
 
-## 🎯 Objetivo
-
-Evalúar la Atención selectiva y la Discriminación visual mediante tareas de búsqueda de estímulos y cancelación.
-
-
-- **¿Que mide?:** Mide la capacidad de filtrado de distractores, resistencia a la interferencia visual, **velocidad de respuesta** y sensibilidad al contraste
+## 🎯 Objetivo Clínico
+Evaluar la **atención selectiva** y la **discriminación visual** mediante tareas de búsqueda, cancelación y segmentación. El sistema permite determinar umbrales de saturación y sensibilidad al contraste en pacientes con compromiso neurológico (**Neglect, DVC, ACV**).
 
 ---
-## 🧪 Tests incluidos
 
-### Figura-Fondo "Buscando a Wally"
-El usuario debe identificar un objeto objetivo entre múltiples distractores con características similares.
+## 🧪 Módulos y Métricas
 
-### Figura-Fondo Clásico
-El usuario debe identificar un objeto objetivo cuyos bordes y colores se asemejan al del fondo para evaluar sensibilidad al contraste y la agudeza visual en condiciones de camuflaje. 
+| Test                                | Descripción | Métrica Principal (JSON) |
+|:------------------------------------| :--- | :--- |
+| **Figura-Fondo (Buscando a Wally)** | Búsqueda de un objetivo único entre distractores de forma similar. | **Densidad de Distractores:** Capacidad de filtrado atencional y rastreo visual. |
+| **Figura-Fondo Clásico (V2)**       | Identificación de estímulos con camuflaje y ruido visual progresivo. | **Umbral de Contraste (Delta RGB):** Sensibilidad visual y segmentación figura-fondo. |
+| **Complejidad Gradual**             | Tarea de cancelación con incremento automático de carga cognitiva. | **Nivel de Saturación:** Resistencia a la interferencia y fatiga visual. |
 
-### Complejidad Gradual
-El usuario debe seleccionar la figura correcta mientras la dificultad aumenta progresivamente.
-
+> **Nota Técnica:** Todos los módulos registran el **Tiempo de Reacción (TR) Neto**, descontando automáticamente los periodos de pausa para garantizar la validez de la velocidad de procesamiento medida.
 ---
 ### 🛡️ Robustez y Seguridad de Datos
 El sistema incluye mecanismos de protección de información:
@@ -82,30 +77,29 @@ python main.py
 - `main.py` → Codigo principal del programa
 
 ---
-## 📊 Salida de datos
+## 📊 Salida de Datos (Reporte JSON)
 
-Los resultados se exportan en formato JSON:
+El sistema genera un archivo detallado por cada sesión para su posterior análisis estadístico o integración en historias clínicas. Los campos exportados incluyen:
 
-- ID del paciente
-- Fecha
-- Test realizado
-- Estado del test
-- Nivel alcanzado
-- Tiempo promedio
-- Cantidad de errores
-
----
-## 👥 Población dirigida y Utilidad Clínica
-
-Este software ha sido desarrollado específicamente para la evaluación y estimulación de pacientes con alteraciones en el procesamiento visual y la atención, incluyendo:
-
-* **Heminegligencia Unilateral (Neglect):** Los tests de búsqueda visual y cancelación permiten evaluar la capacidad del paciente para orientarse y responder a estímulos en el campo visual afectado.
-* **Deterioro Visual Cortical o Cerebral (DVC):** El test de **Complejidad Gradual** está diseñado para determinar el umbral de saturación visual del paciente, permitiendo identificar cuántos elementos puede procesar antes de perder la eficiencia visual.
-* **Secuelas de ACV o TCE:** Evaluación de la atención selectiva y la resistencia a la interferencia (distractores).
-* **Baja Visión y Sensibilidad al Contraste:** El test **Figura-Fondo V2** permite trabajar específicamente con pacientes que presentan dificultades para segmentar objetos de su entorno debido a la similitud de color y contraste.
+* **Metadatos:** ID del paciente, Fecha/Hora exacta y Test realizado.
+* **Estado Clínico:** `Completado` o `Interrumpido` (permite evaluar fatiga o tolerancia a la frustración).
+* **Desempeño Cuantitativo:**
+    * **Tasa de Aciertos:** Precisión perceptual expresada en porcentaje.
+    * **TR Neto:** Tiempo de Reacción promedio en milisegundos (excluye tiempos de pausa).
+    * **Métrica Específica:** Umbral de contraste (Delta RGB) o Nivel de saturación alcanzado.
+* **Registro de Errores:** Conteo total de fallas de discriminación visual.
 
 ---
+## 👥 Población y Utilidad Clínica
 
-## 👨‍💻 Autor
+El software provee herramientas cuantitativas para la evaluación y estimulación de procesos visuales complejos, siendo especialmente efectivo en:
 
-Ignacio Bagnato
+* **Heminegligencia Unilateral (Neglect):** Análisis de la exploración espacial y tiempos de respuesta en los campos visuales afectados mediante tareas de cancelación.
+* **Deterioro Visual Cortical/Cerebral (DVC):** Determinación del **Umbral de Saturación**. El sistema identifica la cantidad exacta de estímulos que el paciente procesa antes de perder eficiencia visual.
+* **Baja Visión y Sensibilidad al Contraste:** Evaluación psicofísica mediante el **Delta RGB** (Figura-Fondo V2), midiendo la capacidad de segmentación en condiciones de camuflaje.
+* **Secuelas de ACV o TCE:** Medición de la **Velocidad de Procesamiento (TR)** y la resistencia a la interferencia visual ante distractores densos.
+---
+
+## 👨‍💻 Autores
+
+Bagnato Ignacio, Ferreira Agustin , Garcia Irlanda y Rivero Ariel

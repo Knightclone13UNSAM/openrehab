@@ -4,7 +4,7 @@ import time
 import os
 import sys
 
-from utils.metrics import calcular_tiempo_promedio
+from utils.metrics import calcular_tiempo_promedio, calcular_tasa_aciertos
 from utils.json_export import guardar_json
 
 WIDTH, HEIGHT = 800, 600
@@ -110,10 +110,13 @@ def run_test_1(screen, nombre_paciente):
                         "fecha": time.strftime("%Y-%m-%d %H:%M:%S"),
                         "test": "complejidad_gradual",
                         "estado": "incompleto: Interrumpido por el usuario",
-                        "intentos": len(resultados),
-                        "nivel_final": nivel
+                        "nivel_alcanzado": nivel,
+                        "tasa_precision_parcial": f"{calcular_tasa_aciertos(resultados)}%",
+                        "tr_promedio_parcial_ms": calcular_tiempo_promedio(tiempos),
+                        "intentos_realizados": len(resultados)
+
                     }
-                    guardar_json(data_aux, f"complejidad_gradual_{nombre_paciente}")
+                    guardar_json(data_aux, f"complejidad_gradual_{nombre_paciente}_INTERRUMPIDO")
                     pygame.quit()
                     import sys
                     sys.exit()
@@ -186,21 +189,27 @@ def run_test_1(screen, nombre_paciente):
                             nivel = max(1, min(max_nivel, nivel))
                             clicked = True
                             break
+    #Cálculo de metricas
+    tasa_aciertos = calcular_tasa_aciertos(resultados)
+    tr_promedio = calcular_tiempo_promedio(tiempos)
+    total_intentos = len(resultados)
+    errores_totales = resultados.count(False)
 
     data = {
         "id_paciente": nombre_paciente,
         "fecha": time.strftime("%Y-%m-%d"),
         "tests": "complejidad_gradual",
         "Estado": "Completado exitosamente",
-        "metrica_principal": nivel,
-        "unidad": "nivel",
-        "intentos": len(tiempos),
-        "tiempo_promedio_ms": calcular_tiempo_promedio(tiempos),
-        "errores": resultados.count(False)
+
+        #Metricas de Desempeño
+        "nivel_maximo_saturacion": nivel,
+        "tasa_aciertos_precision": f"{tasa_aciertos}%",
+        "Errores_totales": errores_totales,
+        "Total_ensayos": total_intentos,
+
+        #Metricas de velocidad
+        "Tiempo_reaccion_promedio_ms": tr_promedio,
+        "Tiempo_reaccion_minimo_ms": round(min(tiempos), 2) if tiempos else 0
     }
 
     guardar_json(data, f"complejidad_gradual_{nombre_paciente}")
-    if event.type == pygame.QUIT:
-        guardar_json(data, f"complejidad_gradual_{nombre_paciente}")
-        pygame.quit()
-        return
