@@ -1,0 +1,10 @@
+{
+    "id_paciente": "nacho",
+    "fecha": "2026-04-07",
+    "tests": "figura_fondo_wally",
+    "nivel_maxima_densidad": 6,
+    "tasa_aciertos_precision": "80.0%",
+    "intentos": 11,
+    "tiempo_reaccion_promedio_ms": 1381.33,
+    "errores_totales": 2
+}

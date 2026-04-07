@@ -1,0 +1,13 @@
+{
+    "paciente": "nacho",
+    "test": "Figura Fondo V2 (Sensibilidad al Contraste)",
+    "fecha": "2026-04-07 18:39:32",
+    "Estado": "Completado Exitosamente",
+    "modo_evaluaci\u00f3n": "Color/Crom\u00e1tico",
+    "umbral_contraste_delta_rgb": 33,
+    "nivel_alcanzado": 4,
+    "tiempo_aciertos_precision": "60.0%",
+    "aciertos": 6,
+    "errores": 4,
+    "tiempo_promedio_ms": 779.67
+}
