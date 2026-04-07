@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d0201ae4-1cea-4e27-8b37-901dee1ae112" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/complejidad_gradual.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/complejidad_gradual.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/figura_fondo.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/figura_fondo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/figura_fondoV2.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/figura_fondoV2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/metrics.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/metrics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/openrehab.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +72,8 @@
       <updated>1774382349262</updated>
       <workItem from="1774382350284" duration="8538000" />
       <workItem from="1775414714177" duration="18084000" />
-      <workItem from="1775506947791" duration="4183000" />
+      <workItem from="1775506947791" duration="4496000" />
+      <workItem from="1775594468402" duration="2187000" />
     </task>
     <servers />
   </component>
@@ -79,7 +81,7 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/openrehab$main.coverage" NAME="main Coverage Results" MODIFIED="1775508061916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/openrehab$main.coverage" NAME="main Coverage Results" MODIFIED="1775595305511" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/openrehab$complejidad_gradual.coverage" NAME="complejidad_gradual Coverage Results" MODIFIED="1774384744211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/openrehab$generate_sounds.coverage" NAME="generate_sounds Coverage Results" MODIFIED="1774389150523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
