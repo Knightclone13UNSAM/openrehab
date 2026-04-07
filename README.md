@@ -71,8 +71,7 @@ python main.py
 - `tests/` → Contiene los juegos (figura-fondo y complejidad gradual)
 - `results/` → Guarda los resultados en formato JSON
 - `assets/` → Sonidos (.wav)
-- `utils/` → Métricas y exportación de resultados
-- `generate_sounds.py` → Script para generar sonidos
+- `utils/` → Métricas, exportación de resultados y generacion de sonidos
 - `main.py` → Codigo principal del programa
 
 ---

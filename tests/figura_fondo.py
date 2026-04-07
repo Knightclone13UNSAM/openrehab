@@ -7,18 +7,31 @@ from utils.json_export import guardar_json
 
 WIDTH, HEIGHT = 800, 600
 
-pygame.mixer.init()
+# Inicializar mixer si no está inicializado
+if not pygame.mixer.get_init():
+    pygame.mixer.init()
 
+# BASE_DIR es .../openrehab/tests
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-ruta_correcto = os.path.join(BASE_DIR, "..", "assets", "correct.wav")
-ruta_correcto = os.path.normpath(ruta_correcto)
+# Subimos un nivel para llegar a la raíz (.../openrehab) y luego entramos a assets
+ruta_assets = os.path.abspath(os.path.join(BASE_DIR, "..", "assets"))
 
-ruta_incorrecto = os.path.join(BASE_DIR, "..", "assets", "wrong.wav")
-ruta_incorrecto = os.path.normpath(ruta_incorrecto)
+path_correct = os.path.join(ruta_assets, "correct.wav")
+path_wrong = os.path.join(ruta_assets, "wrong.wav")
 
-correct_sound = pygame.mixer.Sound(ruta_correcto)
-wrong_sound = pygame.mixer.Sound(ruta_incorrecto)
+# Verificación de depuración (esto imprimirá la ruta real en tu consola)
+print(f"Buscando sonidos en: {ruta_assets}")
+
+try:
+    correct_sound = pygame.mixer.Sound(path_correct)
+    wrong_sound = pygame.mixer.Sound(path_wrong)
+except pygame.error as e:
+    print(f"⚠️ No se pudo cargar el sonido: {e}")
+    # Sonido silencioso para evitar que el programa se cierre
+    correct_sound = pygame.mixer.Sound(buffer=bytes(0))
+    wrong_sound = pygame.mixer.Sound(buffer=bytes(0))
+
 
 def draw_shape(screen, color, pos, size, tipo):
     if tipo == "circle":
@@ -177,7 +190,22 @@ def run_test_2(screen, nombre_paciente):
         while not clicked:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    if len(tiempos) > 0:
+                        tasa = calcular_tasa_aciertos(resultados)
+                        data = {
+                            "id_paciente": nombre_paciente,
+                            "fecha": time.strftime("%Y-%m-%d"),
+                            "tests": "figura_fondo_wally",
+                            "estado_sesion": "Interrumpido",  # Agregamos el estado
+                            "nivel_maxima_densidad": nivel,
+                            "tasa_aciertos_precision": f"{tasa}%",
+                            "intentos": len(tiempos),
+                            "tiempo_reaccion_promedio_ms": round(calcular_tiempo_promedio(tiempos), 2),
+                            "errores_totales": resultados.count(False)
+                        }
+                        guardar_json(data, f"figura_fondo_{nombre_paciente}")
                     pygame.quit()
+                    return
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if ignorar_click:
@@ -188,6 +216,20 @@ def run_test_2(screen, nombre_paciente):
                         pausa_inicio = time.time()
                         res = pausa(screen)
                         if res == "salir":
+                            if len(tiempos) > 0:
+                                tasa = calcular_tasa_aciertos(resultados)
+                                data = {
+                                    "id_paciente": nombre_paciente,
+                                    "fecha": time.strftime("%Y-%m-%d %H:%M:%S"),
+                                    "tests": "figura_fondo_wally",
+                                    "estado_sesion": "Interrumpido (desde Pausa)",
+                                    "nivel_maxima_densidad": nivel,
+                                    "tasa_aciertos_precision": f"{tasa}%",
+                                    "intentos": len(tiempos),
+                                    "tiempo_reaccion_promedio_ms": round(calcular_tiempo_promedio(tiempos), 2),
+                                    "errores_totales": resultados.count(False)
+                                }
+                                guardar_json(data, f"figura_fondo_{nombre_paciente}")
                             return
 
                         pausa_fin = time.time()
@@ -263,6 +305,7 @@ def run_test_2(screen, nombre_paciente):
         "id_paciente": nombre_paciente,
         "fecha": time.strftime("%Y-%m-%d"),
         "tests": "figura_fondo_wally",
+        "estado": "Completado",
         "nivel_maxima_densidad": nivel,
         "tasa_aciertos_precision": f"{tasa}%",
         "intentos": len(tiempos),
