@@ -11,12 +11,11 @@ Evaluar la **atención selectiva** y la **discriminación visual** mediante tare
 
 ## 🧪 Módulos y Métricas
 
-| Test                                | Descripción | Métrica Principal (JSON) |
-|:------------------------------------| :--- | :--- |
-| **Figura-Fondo (Buscando a Wally)** | Búsqueda de un objetivo único entre distractores de forma similar. | **Densidad de Distractores:** Capacidad de filtrado atencional y rastreo visual. |
-| **Figura-Fondo Clásico (V2)**       | Identificación de estímulos con camuflaje y ruido visual progresivo. | **Umbral de Contraste (Delta RGB):** Sensibilidad visual y segmentación figura-fondo. |
-| **Complejidad Gradual**             | Tarea de cancelación con incremento automático de carga cognitiva. | **Nivel de Saturación:** Resistencia a la interferencia y fatiga visual. |
-
+| Test | Descripción | Variable Clínica / Modo |
+| :--- | :--- | :--- |
+| **Buscando a Wally** | Búsqueda de un objetivo único entre distractores. | **Densidad:** Capacidad de filtrado y rastreo visual. |
+| **Figura-Fondo V2** | Identificación de estímulos con camuflaje. | **Umbral de Contraste:** Incluye modo **Gris (Psicofísica)** y **Color (Funcional)**. |
+| **Complejidad Gradual**| Tarea de cancelación con carga progresiva. | **Saturación:** Resistencia a la interferencia y fatiga. |
 > **Nota Técnica:** Todos los módulos registran el **Tiempo de Reacción (TR) Neto**, descontando automáticamente los periodos de pausa para garantizar la validez de la velocidad de procesamiento medida.
 ---
 ### 🛡️ Robustez y Seguridad de Datos
@@ -81,7 +80,7 @@ python main.py
 
 El sistema genera un archivo detallado por cada sesión para su posterior análisis estadístico o integración en historias clínicas. Los campos exportados incluyen:
 
-* **Metadatos:** ID del paciente, Fecha/Hora exacta y Test realizado.
+* **Metadatos:** ID del paciente, Fecha/Hora exacta, Test realizado y Modo (gris/color).
 * **Estado Clínico:** `Completado` o `Interrumpido` (permite evaluar fatiga o tolerancia a la frustración).
 * **Desempeño Cuantitativo:**
     * **Tasa de Aciertos:** Precisión perceptual expresada en porcentaje.

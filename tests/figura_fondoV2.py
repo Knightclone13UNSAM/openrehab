@@ -5,6 +5,7 @@ import sys
 import os
 
 from utils.metrics import calcular_tasa_aciertos, calcular_tiempo_promedio
+from utils.json_export import guardar_json
 # --- CONFIGURACIÓN DE PANTALLA ---
 WIDTH, HEIGHT = 800, 600
 
@@ -43,9 +44,39 @@ def pausa(screen):
             if event.type == pygame.MOUSEBUTTONDOWN and boton.collidepoint(event.pos): return "continuar"
 
 
+def elegir_modo(screen):
+    font = pygame.font.SysFont("Arial", 30)
+    seleccionado = None
+
+    # Rectángulos para los botones
+    btn_gris = pygame.Rect(150, 250, 200, 100)
+    btn_color = pygame.Rect(450, 250, 200, 100)
+
+    while seleccionado is None:
+        screen.fill((50, 50, 50))
+        # Título
+        txt = font.render("Seleccione Protocolo de Evaluación", True, (255, 255, 255))
+        screen.blit(txt, (200, 150))
+
+        # Botón Gris
+        pygame.draw.rect(screen, (100, 100, 100), btn_gris, border_radius=10)
+        screen.blit(font.render("GRIS", True, (255, 255, 255)), (185, 285))
+
+        # Botón Color
+        pygame.draw.rect(screen, (0, 150, 0), btn_color, border_radius=10)
+        screen.blit(font.render("COLOR", True, (255, 255, 255)), (460, 285))
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if btn_gris.collidepoint(event.pos): seleccionado = True
+                if btn_color.collidepoint(event.pos): seleccionado = False
+    return seleccionado
+
 def run_test_3(screen, nombre_paciente):
-    from utils.metrics import calcular_tiempo_promedio
-    from utils.json_export import guardar_json
+
+    MODO_GRIS= elegir_modo(screen)
 
     nivel, tiempos, resultados = 1, [], []
     contrastes_logrados= []
@@ -58,8 +89,14 @@ def run_test_3(screen, nombre_paciente):
         snd_ok = snd_err = None
 
     for intento in range(10):
-        # Color aleatorio para que cada nivel sea distinto y no lúgubre
-        color_bg = (random.randint(100, 200), random.randint(100, 200), random.randint(100, 200))
+        #Generacion de fondo segun modo
+        if MODO_GRIS:
+            v=random.randint(100,180)
+            color_bg= (v, v, v)
+        else:
+            # Color aleatorio para que cada nivel sea distinto y no lúgubre
+            color_bg = (random.randint(100, 200), random.randint(100, 200), random.randint(100, 200))
+
         # Dificultad por contraste (Epsilon)
         epsilon = max(5, 45 - (nivel * 4))
         color_obj = (min(255, color_bg[0] + epsilon), min(255, color_bg[1] + epsilon), min(255, color_bg[2] + epsilon))
@@ -90,6 +127,7 @@ def run_test_3(screen, nombre_paciente):
                     data_emergencia = {"paciente": nombre_paciente,
                         "test": "Figura-Fondo V2",
                         "estado": "INTERRUMPIDO_POR_USUARIO",
+                        "modo_evaluación": "Escala de Grises" if MODO_GRIS else "Color/Cromático",
                         "nivel_alcanzado": nivel,
                         "aciertos_parciales": resultados.count(True),
                         "tr_promedio_ms": round(calcular_tiempo_promedio(tiempos), 2),
@@ -146,6 +184,7 @@ def run_test_3(screen, nombre_paciente):
         "Estado": "Completado Exitosamente",
 
         #Umbral de Contraste
+        "modo_evaluación": "Escala de Grises" if MODO_GRIS else "Color/Cromático",
         "umbral_contraste_delta_rgb": umbral_minimo,
 
         #Desempeño
