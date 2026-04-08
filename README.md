@@ -68,11 +68,14 @@ python main.py
 ---
 
 ## 📁 Estructura del proyecto
+- `assets/` → Sonidos (.wav)
+- `docs/` → Contiene documentación importante como el Informe de investigacion
 - `tests/` → Contiene los juegos (figura-fondo y complejidad gradual)
 - `results/` → Guarda los resultados en formato JSON
-- `assets/` → Sonidos (.wav)
 - `utils/` → Métricas, exportación de resultados y generacion de sonidos
 - `main.py` → Codigo principal del programa
+- `requirements.txt` → Requerimientos para correr el juego
+- `.gitignore` → Para evitar archivos basura
 
 ---
 ## 📊 Salida de Datos (Reporte JSON)
