@@ -13,9 +13,8 @@ Evaluar la **atención selectiva** y la **discriminación visual** mediante tare
 
 | Test | Descripción | Variable Clínica / Modo |
 | :--- | :--- | :--- |
-| **Buscando a Wally** | Búsqueda de un objetivo único entre distractores. | **Densidad:** Capacidad de filtrado y rastreo visual. |
-| **Figura-Fondo V2** | Identificación de estímulos con camuflaje. | **Umbral de Contraste:** Incluye modo **Gris (Psicofísica)** y **Color (Funcional)**. |
-| **Complejidad Gradual**| Tarea de cancelación con carga progresiva. | **Saturación:** Resistencia a la interferencia y fatiga. |
+| Complejidad Visual | Tarea de cancelación y búsqueda con carga progresiva. | Saturación y Filtrado: Incluye niveles Gradual (Estándar) y Wally (Difícil). |
+| Figura-Fondo V2 | Identificación de estímulos con camuflaje. | Umbral de Contraste: Incluye modo Gris (Psicofísica) y Color (Funcional). |                          |
 > **Nota Técnica:** Todos los módulos registran el **Tiempo de Reacción (TR) Neto**, descontando automáticamente los periodos de pausa para garantizar la validez de la velocidad de procesamiento medida.
 ---
 ### 🛡️ Robustez y Seguridad de Datos
@@ -82,7 +81,7 @@ python main.py
 
 El sistema genera un archivo detallado por cada sesión para su posterior análisis estadístico o integración en historias clínicas. Los campos exportados incluyen:
 
-* **Metadatos:** ID del paciente, Fecha/Hora exacta, Test realizado y Modo (gris/color).
+* **Metadatos:** ID del paciente, Fecha/Hora exacta, Test realizado y Modo.
 * **Estado Clínico:** `Completado` o `Interrumpido` (permite evaluar fatiga o tolerancia a la frustración).
 * **Desempeño Cuantitativo:**
     * **Tasa de Aciertos:** Precisión perceptual expresada en porcentaje.

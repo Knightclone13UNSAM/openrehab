@@ -106,45 +106,52 @@ def run_test_2(screen, nombre_paciente):
         pygame.display.flip()
         pygame.time.delay(2000)
 
-
-        # DIFICULTAD
+        # Dificultad
         distractores = nivel * 10
         objetos = []
-
-        grid_size = 40
+        grid_size = 35
         posiciones = []
 
+        # Creamos la grilla de posibles lugares
         for x in range(50, 750, grid_size):
             for y in range(120, 550, grid_size):
                 posiciones.append((x, y))
 
         random.shuffle(posiciones)
-
-        posiciones_usadas = []
+        posiciones_usadas = [objetivo_pos]
 
         for _ in range(distractores):
+            # SEGURO 1: Si no hay más posiciones en la lista, dejamos de crear distractores
+            if not posiciones:
+                break
 
-            while True:
+            pos_encontrada = False
+            intentos_pos = 0
+
+            # SEGURO 2: Buscamos un lugar que no esté muy pegado a otro
+            while posiciones and intentos_pos < 10:
                 pos = posiciones.pop()
-
-                if posicion_valida(pos, posiciones_usadas, 45):
+                intentos_pos += 1
+                if posicion_valida(pos, posiciones_usadas, 40):
                     posiciones_usadas.append(pos)
+                    pos_encontrada = True
                     break
 
-            # Distractores muy parecidos
-            while True:
-                color = (random.randint(60, 120), random.randint(60, 120), random.randint(60, 120))
-                tipo = random.choice(["circle", "square"])
+            if not pos_encontrada:
+                continue
 
-                # Evitar mismo tipo que el objetivo
-                if tipo != objetivo_tipo:
-                    break
+                # Elegimos el color y tipo
+            color = (random.randint(60, 120), random.randint(60, 120), random.randint(60, 120))
+            tipo = random.choice(["circle", "square"])
+            if tipo == objetivo_tipo:  # Si sale igual al objetivo, lo cambiamos a circulo
+                tipo = "circle"
 
-            size = random.randint(10, 30)
+            size = random.randint(15, 25)
             objetos.append((pos, color, tipo, False, size))
 
-        # Agregar objetivo
-        objetos.append((objetivo_pos, objetivo_color, objetivo_tipo, True,20))
+        # Agregar el objetivo real al final
+        objetos.append((objetivo_pos, objetivo_color, objetivo_tipo, True, 20))
+        # --- FIN DEL BLOQUE CORREGIDO ---
 
         random.shuffle(objetos)
 
@@ -195,7 +202,8 @@ def run_test_2(screen, nombre_paciente):
                         data = {
                             "id_paciente": nombre_paciente,
                             "fecha": time.strftime("%Y-%m-%d"),
-                            "tests": "figura_fondo_wally",
+                            "tests": "Complejidad Gradual",
+                            "Modo": "Buscando a Wally (Dificil)",
                             "estado_sesion": "Interrumpido",  # Agregamos el estado
                             "nivel_maxima_densidad": nivel,
                             "tasa_aciertos_precision": f"{tasa}%",
@@ -203,7 +211,7 @@ def run_test_2(screen, nombre_paciente):
                             "tiempo_reaccion_promedio_ms": round(calcular_tiempo_promedio(tiempos), 2),
                             "errores_totales": resultados.count(False)
                         }
-                        guardar_json(data, f"figura_fondo_{nombre_paciente}")
+                        guardar_json(data, f"Complejidad_Gradual_Wally_{nombre_paciente}")
                     pygame.quit()
                     return
 
@@ -221,7 +229,8 @@ def run_test_2(screen, nombre_paciente):
                                 data = {
                                     "id_paciente": nombre_paciente,
                                     "fecha": time.strftime("%Y-%m-%d %H:%M:%S"),
-                                    "tests": "figura_fondo_wally",
+                                    "tests": "Complejidad Gradual",
+                                    "Modo": "Buscando a Wally (Dificil)",
                                     "estado_sesion": "Interrumpido (desde Pausa)",
                                     "nivel_maxima_densidad": nivel,
                                     "tasa_aciertos_precision": f"{tasa}%",
@@ -229,7 +238,7 @@ def run_test_2(screen, nombre_paciente):
                                     "tiempo_reaccion_promedio_ms": round(calcular_tiempo_promedio(tiempos), 2),
                                     "errores_totales": resultados.count(False)
                                 }
-                                guardar_json(data, f"figura_fondo_{nombre_paciente}")
+                                guardar_json(data, f"Complejidad_Gradual_Wally_{nombre_paciente}")
                             return
 
                         pausa_fin = time.time()
@@ -304,7 +313,8 @@ def run_test_2(screen, nombre_paciente):
     data = {
         "id_paciente": nombre_paciente,
         "fecha": time.strftime("%Y-%m-%d"),
-        "tests": "figura_fondo_wally",
+        "tests": "Complejidad Gradual",
+        "Modo": "Buscando a Wally (Dificil)",
         "estado": "Completado",
         "nivel_maxima_densidad": nivel,
         "tasa_aciertos_precision": f"{tasa}%",
@@ -313,5 +323,5 @@ def run_test_2(screen, nombre_paciente):
         "errores_totales": resultados.count(False)
     }
 
-    guardar_json(data, f"figura_fondo_{nombre_paciente}")
+    guardar_json(data, f"Complejidad_Gradual_Wally_{nombre_paciente}")
 

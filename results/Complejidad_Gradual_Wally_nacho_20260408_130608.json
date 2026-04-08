@@ -1,0 +1,12 @@
+{
+    "id_paciente": "nacho",
+    "fecha": "2026-04-08",
+    "tests": "Complejidad Gradual",
+    "Modo": "Buscando a Wally (Dificil)",
+    "estado": "Completado",
+    "nivel_maxima_densidad": 9,
+    "tasa_aciertos_precision": "90.0%",
+    "intentos": 10,
+    "tiempo_reaccion_promedio_ms": 906.47,
+    "errores_totales": 1
+}

@@ -109,6 +109,7 @@ def run_test_1(screen, nombre_paciente):
                         "id_paciente": nombre_paciente,
                         "fecha": time.strftime("%Y-%m-%d %H:%M:%S"),
                         "test": "complejidad_gradual",
+                        "modo": "Estandar",
                         "estado": "incompleto: Interrumpido por el usuario",
                         "nivel_alcanzado": nivel,
                         "tasa_precision_parcial": f"{calcular_tasa_aciertos(resultados)}%",
@@ -116,7 +117,7 @@ def run_test_1(screen, nombre_paciente):
                         "intentos_realizados": len(resultados)
 
                     }
-                    guardar_json(data_aux, f"complejidad_gradual_{nombre_paciente}_INTERRUMPIDO")
+                    guardar_json(data_aux, f"complejidad_gradual_estandar_{nombre_paciente}_INTERRUMPIDO")
                     pygame.quit()
                     import sys
                     sys.exit()
@@ -133,11 +134,12 @@ def run_test_1(screen, nombre_paciente):
                                 "id_paciente": nombre_paciente,
                                 "fecha": time.strftime("%Y-%m-%d %H:%M:%S"),
                                 "test": "complejidad_gradual",
+                                "modo": "estandar",
                                 "estado": "interrumpido_en_pausa",
                                 "intentos": len(resultados),
                                 "nivel_final": nivel
                             }
-                            guardar_json(data_pausa, f"complejidad_gradual_{nombre_paciente}")
+                            guardar_json(data_pausa, f"complejidad_gradual_estandar_{nombre_paciente}")
                             pygame.quit()
                             import sys
                             sys.exit()
@@ -199,6 +201,7 @@ def run_test_1(screen, nombre_paciente):
         "id_paciente": nombre_paciente,
         "fecha": time.strftime("%Y-%m-%d"),
         "tests": "complejidad_gradual",
+        "modo": "Estandar",
         "Estado": "Completado exitosamente",
 
         #Metricas de Desempeño
@@ -212,4 +215,4 @@ def run_test_1(screen, nombre_paciente):
         "Tiempo_reaccion_minimo_ms": round(min(tiempos), 2) if tiempos else 0
     }
 
-    guardar_json(data, f"complejidad_gradual_{nombre_paciente}")
+    guardar_json(data, f"complejidad_gradual_estandar_{nombre_paciente}")

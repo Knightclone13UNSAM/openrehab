@@ -1,0 +1,9 @@
+{
+    "id_paciente": "nacho",
+    "fecha": "2026-04-08 12:58:10",
+    "test": "complejidad_gradual",
+    "modo": "estandar",
+    "estado": "interrumpido_en_pausa",
+    "intentos": 0,
+    "nivel_final": 1
+}
